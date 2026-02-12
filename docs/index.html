@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Design Roadmap | SDE, ML, AI & Data</title>
+  <style>
+    :root {
+      --bg-primary: #0f0f12;
+      --bg-card: #1e1e24;
+      --accent: #06b6d4;
+      --accent-muted: rgba(6, 182, 212, 0.15);
+      --text-primary: #fafafa;
+      --text-secondary: #d4d4d8;
+      --text-muted: #a1a1aa;
+      --border: #3f3f46;
+      --success: #22c55e;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+    *,*::before,*::after{box-sizing:border-box}
+    html{font-size:18px;scroll-behavior:smooth}
+    body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg-primary);color:var(--text-primary);line-height:1.65;min-height:100vh;-webkit-font-smoothing:antialiased}
+    .app{max-width:920px;margin:0 auto;padding:2.5rem 1.75rem;min-height:calc(100vh - 60px)}
+    .header{text-align:center;margin-bottom:3rem}
+    .logo{font-size:2rem;font-weight:700;margin:0 0 0.5rem;letter-spacing:-0.02em}
+    .tagline{color:var(--text-secondary);font-size:1.1rem;margin:0;line-height:1.5}
+    .journey-selection h2{font-size:1.35rem;color:var(--text-secondary);margin-bottom:2rem;text-align:center;font-weight:500}
+    .journey-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem}
+    .journey-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.75rem;cursor:pointer;transition:all 0.2s;text-align:left;font-size:1rem;color:var(--text-primary)}
+    .journey-card:hover{border-color:var(--accent);background:var(--accent-muted);transform:translateY(-2px)}
+    .card-icon{font-size:2.25rem;display:block;margin-bottom:0.875rem}
+    .journey-card h3{font-size:1.2rem;margin:0 0 0.5rem;font-weight:600;color:var(--text-primary)}
+    .journey-card p{color:var(--text-secondary);font-size:1rem;margin:0 0 0.875rem;line-height:1.5}
+    .card-duration{font-size:0.9rem;color:var(--accent);font-weight:500}
+    .roadmap-section.hidden,.journey-selection.hidden{display:none!important}
+    .roadmap-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:2rem}
+    .back-btn{background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);padding:0.6rem 1.25rem;border-radius:var(--radius-sm);cursor:pointer;font-size:1rem}
+    .back-btn:hover{background:#2a2a32;color:var(--text-primary)}
+    .progress-summary{display:flex;align-items:center;gap:1rem}
+    .progress-bar-container{width:140px;height:10px;background:var(--bg-card);border-radius:5px;overflow:hidden}
+    .progress-bar{height:100%;background:var(--accent);border-radius:5px;transition:width 0.3s}
+    .progress-text{font-size:1rem;color:var(--text-secondary);font-weight:500}
+    .phase-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:1.25rem;overflow:hidden}
+    .phase-header{display:flex;align-items:center;gap:1rem;padding:1.15rem 1.5rem;cursor:pointer;min-height:56px}
+    .phase-header:hover{background:rgba(255,255,255,0.03)}
+    .phase-header h3{flex:1;margin:0;font-size:1.15rem;font-weight:600;color:var(--text-primary)}
+    .phase-duration{font-size:0.9rem;color:var(--text-muted)}
+    .phase-check{width:26px;height:26px;border-radius:6px;border:2px solid var(--border);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .phase-check.checked{background:var(--success);border-color:var(--success)}
+    .phase-check.checked::after{content:'✓';color:white;font-size:13px;font-weight:bold}
+    .phase-toggle{color:var(--text-muted);font-size:1.1rem}
+    .phase-card.expanded .phase-toggle{transform:rotate(180deg)}
+    .phase-content{display:none;padding:1rem 1.5rem 1.5rem;border-top:1px solid var(--border)}
+    .phase-card.expanded .phase-content{display:block}
+    .topic-list{list-style:none;padding:0;margin:0}
+    .topic-item{display:flex;align-items:center;gap:1rem;padding:0.75rem 0;border-bottom:1px solid var(--border);font-size:1.05rem;line-height:1.5}
+    .topic-item:last-child{border-bottom:none}
+    .topic-checkbox{width:22px;height:22px;border-radius:5px;border:2px solid var(--border);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .topic-checkbox:hover{border-color:var(--accent)}
+    .topic-checkbox.checked{background:var(--success);border-color:var(--success)}
+    .topic-checkbox.checked::after{content:'✓';color:white;font-size:12px;font-weight:bold}
+    .topic-label{flex:1;cursor:pointer;color:var(--text-secondary)}
+    .topic-item.done .topic-label{color:var(--text-muted);text-decoration:line-through}
+    .footer{text-align:center;padding:2rem;color:var(--text-muted);font-size:0.95rem}
+    .footer a{color:var(--accent);text-decoration:none}
+    .footer a:hover{text-decoration:underline}
+    @media(max-width:600px){html{font-size:16px}.app{padding:1.25rem}.journey-cards{grid-template-columns:1fr}.topic-item{font-size:1rem}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1 class="logo">🏗️ System Design Roadmap</h1>
+      <p class="tagline">Choose your role. Master system design. Ace your interviews.</p>
+    </header>
+
+    <section class="journey-selection" id="journeySection">
+      <h2>Choose Your Role</h2>
+      <div class="journey-cards">
+        <button class="journey-card" data-journey="sde">
+          <span class="card-icon">👨‍💻</span>
+          <h3>Software Engineer (SDE)</h3>
+          <p>General system design: scaling, APIs, databases</p>
+          <span class="card-duration">4-6 months</span>
+        </button>
+        <button class="journey-card" data-journey="ml-engineer">
+          <span class="card-icon">🤖</span>
+          <h3>ML Engineer</h3>
+          <p>ML pipelines, model serving, feature stores</p>
+          <span class="card-duration">3-5 months</span>
+        </button>
+        <button class="journey-card" data-journey="ai-engineer">
+          <span class="card-icon">✨</span>
+          <h3>AI Engineer</h3>
+          <p>LLM systems, RAG, inference at scale</p>
+          <span class="card-duration">3-5 months</span>
+        </button>
+        <button class="journey-card" data-journey="data-scientist">
+          <span class="card-icon">📊</span>
+          <h3>Data Scientist</h3>
+          <p>Experimentation, data pipelines, ML systems</p>
+          <span class="card-duration">3-4 months</span>
+        </button>
+        <button class="journey-card" data-journey="data-engineer">
+          <span class="card-icon">🔧</span>
+          <h3>Data Engineer</h3>
+          <p>Data pipelines, warehouses, streaming</p>
+          <span class="card-duration">3-5 months</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="roadmap-section hidden" id="roadmapSection">
+      <div class="roadmap-header">
+        <button class="back-btn" id="backBtn">← Back to roles</button>
+        <div class="progress-summary">
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+          <span class="progress-text" id="progressText">0% complete</span>
+        </div>
+      </div>
+      <div class="roadmap-content" id="roadmapContent"></div>
+    </section>
+  </div>
+
+  <footer class="footer">
+    <p><a href="https://github.com/ananttripathi/System-Design" target="_blank">View on GitHub</a> • Progress saved in browser</p>
+  </footer>
+
+  <script>
+    const STORAGE_KEY='system-design-progress';
+    const roadmaps={
+      'sde':{name:'Software Engineer (SDE)',phases:[
+        {id:'sde-p1',name:'Phase 1: Fundamentals',duration:'1-2 months',topics:['CAP theorem, consistency models','Horizontal vs vertical scaling','Load balancing (round-robin, consistent hashing)','Caching strategies (LRU, Redis, CDN)','Database types: SQL vs NoSQL','Indexing, sharding, replication']},
+        {id:'sde-p2',name:'Phase 2: Core Patterns',duration:'1-2 months',topics:['Microservices vs monolithic','API design: REST, gRPC, GraphQL','Message queues: Kafka, RabbitMQ, SQS','Event-driven architecture','Database design: normalization, denormalization','Rate limiting & circuit breakers']},
+        {id:'sde-p3',name:'Phase 3: Classic Systems',duration:'1-2 months',topics:['Design: URL shortener, rate limiter','Design: Chat / messaging system','Design: News feed (Twitter-style)','Design: Search (autocomplete, full-text)','Design: Distributed file storage','Design: Rate limiter, ID generator']},
+        {id:'sde-p4',name:'Phase 4: Advanced',duration:'1-2 months',topics:['Design: Video streaming (Netflix)','Design: Ride-sharing (Uber)','Design: Instagram / photo sharing','Design: E-commerce checkout','Distributed tracing, monitoring','Trade-offs & back-of-envelope estimation']}
+      ]},
+      'ml-engineer':{name:'ML Engineer',phases:[
+        {id:'mle-p1',name:'Phase 1: ML System Basics',duration:'2-4 weeks',topics:['ML lifecycle: training vs inference','Batch vs real-time inference','Latency, throughput, cost trade-offs','Model versioning & registry']},
+        {id:'mle-p2',name:'Phase 2: Training & Data',duration:'1-2 months',topics:['Feature stores (Feast, Tecton)','Training pipelines: Airflow, Kubeflow','Data validation & quality in ML','Distributed training (data/model parallel)','Experiment tracking (MLflow, W&B)']},
+        {id:'mle-p3',name:'Phase 3: Serving & Deployment',duration:'1-2 months',topics:['Model serving: batch vs online','A/B testing for ML models','Shadow deployment, canary','Model monitoring & drift detection','Design: Recommendation system','Design: Fraud detection pipeline']},
+        {id:'mle-p4',name:'Phase 4: At Scale',duration:'1-2 months',topics:['Design: Search ranking at scale','Design: Ads targeting system','Caching for inference','Multi-model serving','Cost optimization strategies']}
+      ]},
+      'ai-engineer':{name:'AI Engineer',phases:[
+        {id:'aie-p1',name:'Phase 1: LLM System Basics',duration:'2-4 weeks',topics:['LLM inference: latency, cost, tokens','Prompt engineering at scale','Caching for LLM responses','Batching & throughput optimization']},
+        {id:'aie-p2',name:'Phase 2: RAG Systems',duration:'1-2 months',topics:['RAG architecture: chunking, retrieval, generation','Vector DBs: indexing, scaling','Embedding pipelines & batch processing','Hybrid search: dense + sparse','Reranking & context selection']},
+        {id:'aie-p3',name:'Phase 3: Agents & Production',duration:'1-2 months',topics:['Design: AI chatbot with memory','Design: RAG-based Q&A at scale','Agent orchestration: tool use, planning','Streaming responses & UX','Rate limiting for LLM APIs']},
+        {id:'aie-p4',name:'Phase 4: Advanced',duration:'1-2 months',topics:['Design: Code assistant (Copilot-style)','Design: Document processing pipeline','Multi-modal systems (vision + text)','Fine-tuning pipeline design','Evaluation & observability (LangSmith)']}
+      ]},
+      'data-scientist':{name:'Data Scientist',phases:[
+        {id:'ds-p1',name:'Phase 1: Data & Experimentation',duration:'2-4 weeks',topics:['A/B testing platform design','Experiment randomization & stratification','Metrics collection & aggregation','Statistical significance at scale']},
+        {id:'ds-p2',name:'Phase 2: ML Systems for DS',duration:'1-2 months',topics:['Feature store for analytics','Data pipeline for training data','Model deployment: batch predictions','Dashboard & reporting systems']},
+        {id:'ds-p3',name:'Phase 3: Data Pipeline Design',duration:'1-2 months',topics:['Design: Analytics data pipeline','Design: Recommendation metrics pipeline','Real-time vs batch analytics','Data quality & monitoring']},
+        {id:'ds-p4',name:'Phase 4: Case Studies',duration:'1 month',topics:['Design: Experimentation platform','Design: ML feature pipeline','Trade-offs: freshness vs cost','Interview prep: DS system design']}
+      ]},
+      'data-engineer':{name:'Data Engineer',phases:[
+        {id:'de-p1',name:'Phase 1: Pipeline Fundamentals',duration:'2-4 weeks',topics:['ETL vs ELT architecture','Batch vs streaming design','Data lake vs warehouse vs lakehouse','Schema evolution & versioning']},
+        {id:'de-p2',name:'Phase 2: Core Systems',duration:'1-2 months',topics:['Design: Real-time analytics pipeline','Design: Change data capture (CDC)','Kafka: partitioning, consumer groups','Data quality & reconciliation','Medallion architecture (Bronze, Silver, Gold)']},
+        {id:'de-p3',name:'Phase 3: At Scale',duration:'1-2 months',topics:['Design: Log aggregation pipeline','Design: Data warehouse ingestion','Spark: optimization, partitioning','Cost optimization: storage, compute']},
+        {id:'de-p4',name:'Phase 4: Advanced',duration:'1-2 months',topics:['Design: Multi-tenant data platform','Design: ML feature pipeline','Data governance & lineage','Trade-offs & capacity planning']}
+      ]}
+    };
+    let currentJourney=null;
+    let progress={};
+    function loadProgress(){try{const d=localStorage.getItem(STORAGE_KEY);return d?JSON.parse(d):{}}catch{return{}}}
+    function saveProgress(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(progress))}catch(e){}}
+    function pk(j,pid,i){return i===undefined?j+'_'+pid:j+'_'+pid+'_'+i}
+    function phaseComplete(j,p){return p.topics.every((_,i)=>!!progress[pk(j,p.id,i)])}
+    function topicDone(j,pid,i){return!!progress[pk(j,pid,i)]}
+    function overallPct(j){let t=0,d=0;roadmaps[j].phases.forEach(p=>{p.topics.forEach((_,i)=>{t++;if(topicDone(j,p.id,i))d++})});return t?Math.round(d/t*100):0}
+    function render(){
+      const rd=roadmaps[currentJourney];
+      const c=document.getElementById('roadmapContent');
+      c.innerHTML='';
+      rd.phases.forEach(phase=>{
+        const done=phaseComplete(currentJourney,phase);
+        const div=document.createElement('div');
+        div.className='phase-card expanded';
+        div.innerHTML='<div class="phase-header"><div class="phase-check '+(done?'checked':'')+'" data-pid="'+phase.id+'"></div><h3>'+phase.name+'</h3><span class="phase-duration">'+phase.duration+'</span><span class="phase-toggle">▼</span></div><div class="phase-content"><ul class="topic-list">'+phase.topics.map((t,i)=>{const d=topicDone(currentJourney,phase.id,i);return'<li class="topic-item '+(d?'done':'')+'"><div class="topic-checkbox '+(d?'checked':'')+'" data-key="'+pk(currentJourney,phase.id,i)+'"></div><span class="topic-label">'+t+'</span></li>'}).join('')+'</ul></div>';
+        c.appendChild(div);
+      });
+      document.querySelectorAll('.phase-header').forEach(h=>{const card=h.closest('.phase-card');h.onclick=e=>{if(!e.target.classList.contains('topic-checkbox')&&!e.target.closest('.topic-checkbox')&&!e.target.classList.contains('phase-check'))card.classList.toggle('expanded')}});
+      document.querySelectorAll('.phase-check').forEach(el=>{el.onclick=e=>{e.stopPropagation();const p=roadmaps[currentJourney].phases.find(x=>x.id===el.dataset.pid);const all=phaseComplete(currentJourney,p);p.topics.forEach((_,i)=>{progress[pk(currentJourney,p.id,i)]=!all});saveProgress();render()}});
+      document.querySelectorAll('.topic-checkbox').forEach(el=>{el.onclick=e=>{e.stopPropagation();progress[el.dataset.key]=!progress[el.dataset.key];saveProgress();render()}});
+      document.querySelectorAll('.topic-label').forEach(l=>{l.onclick=()=>l.closest('.topic-item').querySelector('.topic-checkbox').click()});
+      document.getElementById('progressBar').style.width=overallPct(currentJourney)+'%';
+      document.getElementById('progressText').textContent=overallPct(currentJourney)+'% complete';
+    }
+    function showJourney(){currentJourney=null;document.getElementById('journeySection').classList.remove('hidden');document.getElementById('roadmapSection').classList.add('hidden')}
+    function showRoadmap(j){currentJourney=j;document.getElementById('journeySection').classList.add('hidden');document.getElementById('roadmapSection').classList.remove('hidden');render()}
+    progress=loadProgress();
+    document.querySelectorAll('.journey-card').forEach(c=>c.onclick=()=>showRoadmap(c.dataset.journey));
+    document.getElementById('backBtn').onclick=showJourney;
+  </script>
+</body>
+</html>
